@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="MiniViewer3D.SceneTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MiniViewer3D"
+             xmlns:me="clr-namespace:MiniEyes;assembly=MiniEyes"
+             xmlns:wht="clr-namespace:MiniEyes.WpfHelperTools;assembly=MiniEyes.WpfHelperTools"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             Background="{StaticResource BaseColor}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/TabPropertyStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel>
+        <Expander Header="Common"
+                  HeaderTemplate="{StaticResource ExpanderHeaderStyle}"
+                  IsExpanded="True">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Name" />
+                    <TextBlock Text="Path" />
+                    <TextBlock Text="Object Count" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding SceneNode.Name, Mode=OneWay}" />
+                    <TextBox Text="{Binding SceneNode.FilePath, Mode=OneWay}" />
+                    <TextBox Text="{Binding Count, Mode=OneWay}" />
+                </StackPanel>
+            </Grid>
+        </Expander>
+
+        <Expander Header="AntiAliasing"
+                  HeaderTemplate="{StaticResource ExpanderHeaderStyle}"
+                  DataContext="{Binding SceneNode.Scene.Configuration.AntiAliasing}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Sample Count" />
+                    <TextBlock Text="IsEnable" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding Samples, Mode=OneWay}" />
+                    <CheckBox IsChecked="{Binding IsEnable}" />
+                </StackPanel>
+            </Grid>
+        </Expander>
+        <Expander Header="Blending"
+                  HeaderTemplate="{StaticResource ExpanderHeaderStyle}"
+                  DataContext="{Binding SceneNode.Scene.Configuration.Blending}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Source" />
+                    <TextBlock Text="Destination" />
+                    <TextBlock Text="IsEnable" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <ComboBox ItemsSource="{Binding Source={wht:EnumBindingSource {x:Type me:BlendingFactor}}}"
+                              SelectedItem="{Binding SourceFactor}"
+                              IsEnabled="{Binding IsEnable}" />
+                    <ComboBox ItemsSource="{Binding Source={wht:EnumBindingSource {x:Type me:BlendingFactor}}}"
+                              SelectedItem="{Binding DestinationFactor}"
+                              IsEnabled="{Binding IsEnable}" />
+                    <CheckBox IsChecked="{Binding IsEnable}" />
+                </StackPanel>
+            </Grid>
+        </Expander>
+
+        <!--<Expander Header="Clipping"
+                  HeaderTemplate="{StaticResource ExpanderHeaderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Source" />
+                    <TextBlock Text="Destination" />
+                    <TextBlock Text="IsEnable" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <ComboBox SelectedIndex="0" />
+                    <ComboBox />
+                    <CheckBox />
+                </StackPanel>
+            </Grid>
+        </Expander>-->
+
+        <Expander Header="DepthTest"
+                  HeaderTemplate="{StaticResource ExpanderHeaderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Depth Buffer" />
+                    <TextBlock Text="Mode" />
+                    <TextBlock Text="IsEnable" />
+                </StackPanel>
+                <StackPanel Grid.Column="1"
+                            DataContext="{Binding SceneNode.Scene.Configuration.DepthTest}">
+                    <TextBox Text="{Binding Depth, Mode=OneWay}" />
+                    <ComboBox ItemsSource="{Binding Source={wht:EnumBindingSource {x:Type me:DepthFuncMethod}}}"
+                              SelectedItem="{Binding DepthFuncMethod}"                              
+                              IsEnabled="{Binding IsEnable}" />
+                    <CheckBox IsChecked="{Binding IsEnable}" />
+                    <!-- implement changed event(call redraw method) using interactivity-->
+                </StackPanel>
+            </Grid>
+        </Expander>
+        <Expander Header="Layout"
+                  HeaderTemplate="{StaticResource ExpanderHeaderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Background" />
+                    <TextBlock Text="Axis" />
+                    <TextBlock Text="Origin" />
+                    <TextBlock Text="BoundingBox" />
+                    <TextBlock Text="BoundingSphere" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <local:ColorAttributeControl Color="{Binding Background}"
+                                                 ClickSettingCommand="{Binding ShowColorPickerCommand}" 
+                                                 Margin="0,0,0,3"/>
+                    <CheckBox IsEnabled="False" />
+                    <CheckBox IsEnabled="False" />
+                    <CheckBox IsEnabled="False" />
+                    <CheckBox IsEnabled="False" />
+                </StackPanel>
+            </Grid>
+        </Expander>
+    </StackPanel>
+</UserControl>

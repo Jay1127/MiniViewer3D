@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="MiniViewer3D.PointAttributeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MiniViewer3D"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="800">
+    <StackPanel Orientation="Horizontal"
+                VerticalAlignment="Center">
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Margin"
+                        Value="0,0,5,3" />
+                <Setter Property="Height"
+                        Value="18" />
+                <Setter Property="VerticalContentAlignment"
+                        Value="Center" />
+                <Setter Property="Padding"
+                        Value="0" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Width"
+                        Value="70" />
+                <Setter Property="Height"
+                        Value="18" />
+                <Setter Property="Margin"
+                        Value="0,0,7,3" />
+            </Style>
+        </StackPanel.Resources>
+        <Label Content="X" />
+        <TextBox Text="{Binding X, StringFormat=F5}"/>
+        <Label Content="Y" />
+        <TextBox Text="{Binding Y, StringFormat=F5}"/>
+        <Label Content="Z" />
+        <TextBox Text="{Binding Z, StringFormat=F5}"/>
+    </StackPanel>
+</UserControl>

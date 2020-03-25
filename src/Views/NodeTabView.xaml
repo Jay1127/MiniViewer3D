@@ -1,0 +1,190 @@
+﻿<UserControl x:Class="MiniViewer3D.NodeTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MiniViewer3D"
+             xmlns:wht="clr-namespace:MiniEyes.WpfHelperTools;assembly=MiniEyes.WpfHelperTools"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{StaticResource BaseColor}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/TabPropertyStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="1" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TreeView Background="{StaticResource BaseColor}"
+                  BorderThickness="0"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  wht:TreeViewNodeTracker.SelectedNode="{Binding ActiveNode}"
+                  wht:TreeViewNodeTracker.KeepTrack="True">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded"
+                            Value="True" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeViewItem Header="Objects"
+                          ItemsSource="{Binding MeshNodes}">
+                <TreeViewItem.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"
+                                   HorizontalAlignment="Left" />
+                    </DataTemplate>
+                </TreeViewItem.ItemTemplate>
+                <!--<TreeViewItem.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
+                        <TextBlock Text="{Binding Name}"
+                                   HorizontalAlignment="Left" />
+                    </HierarchicalDataTemplate>
+                </TreeViewItem.ItemTemplate>-->
+            </TreeViewItem>
+        </TreeView>
+
+        <GridSplitter Grid.Row="1"
+                      BorderBrush="Gray"
+                      BorderThickness="0,1,0,0"
+                      HorizontalAlignment="Stretch" />
+
+        <StackPanel Grid.Row="2">
+            <Expander Header="Common"
+                      DataContext="{Binding ActiveNode}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Name" />
+                        <TextBlock Text="Vertex Count" />
+                        <TextBlock Text="Face Count" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox Text="{Binding Name, Mode=OneWay}" />
+                        <TextBox Text="{Binding VertexCount, Mode=OneWay}" />
+                        <TextBox Text="{Binding FaceCount, Mode=OneWay}" />
+                    </StackPanel>
+                </Grid>
+            </Expander>
+            <Expander Header="Material"
+                      DataContext="{Binding ActiveMaterial}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Name" />
+                        <TextBlock Text="Ambient" />
+                        <TextBlock Text="Diffuse" />
+                        <TextBlock Text="Specular" />
+                        <TextBlock Text="Opacity" />
+                        <TextBlock Text="Shininess" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBox Text="{Binding Name, Mode=OneWay}" />
+                        <local:ColorAttributeControl Color="{Binding Ambient}"
+                                                     ClickSettingCommand="{Binding DataContext.ShowColorPickerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                     ClickSettingCommandParameter="Ambient"
+                                                     Margin="0,0,0,3" />
+                        <local:ColorAttributeControl Color="{Binding Diffuse}"
+                                                     ClickSettingCommand="{Binding DataContext.ShowColorPickerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                     ClickSettingCommandParameter="Diffuse"
+                                                     Margin="0,0,0,3" />
+                        <local:ColorAttributeControl Color="{Binding Specular}"
+                                                     ClickSettingCommand="{Binding DataContext.ShowColorPickerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                     ClickSettingCommandParameter="Specular"
+                                                     Margin="0,0,0,3" />
+                        <TextBox Text="{Binding Opacity, Mode=OneWay}" />
+                        <TextBox Text="{Binding Shininess, Mode=OneWay}" />
+                    </StackPanel>
+                </Grid>                
+            </Expander>
+        </StackPanel>
+
+        <!--<Grid Grid.Row="2"
+              Margin="10,5,0,0"
+              DataContext="{Binding NodeTree.ActiveNode}">
+            <Grid.Resources>
+                <Style TargetType="{x:Type RowDefinition}">
+                    <Setter Property="Height"
+                            Value="15" />
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"
+                                  MinWidth="70"
+                                  MaxWidth="120" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="Height"
+                                Value="18" />
+                        <Setter Property="Padding"
+                                Value="0,1,0,0" />
+                        <Setter Property="Margin"
+                                Value="0,0,0,3" />
+                    </Style>
+                </StackPanel.Resources>
+                <Label Content="Name" />
+                <Label Content="Node Count" />
+                <Label Content="Face Count" />
+                <Label Content="Material" />
+                <Label Content="Ambient"
+                       Margin="10,0,0,3" />
+                <Label Content="Diffuse"
+                       Margin="10,0,0,3" />
+                <Label Content="Specular"
+                       Margin="10,0,0,3" />
+            </StackPanel>
+            <StackPanel Grid.Column="1"
+                        Margin="3,0,0,0">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Margin"
+                                Value="0,0,10,3" />
+                    </Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Height"
+                                Value="18" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBox Text="{Binding Name, Mode=OneWay}"
+                         IsReadOnly="True" />
+                <TextBox Text="{Binding NodeCount, Mode=OneWay}" />
+                <TextBox Text="{Binding IndexCount, Mode=OneWay}" />
+                <TextBox Text="{Binding MaterialAttribute.Name, Mode=OneWay}" />
+                --><!--<Border Background="{Binding MaterialAttribute.Ambient, Mode=OneWay}"
+                        Margin="10,0,10,3" />--><!--
+                <ToggleButton Background="{Binding MaterialAttribute.Ambient, Mode=OneWay}"
+                              Margin="10,0,10,3" 
+                              Height="18"
+                              x:Name="ambientBtn"/>
+                <Popup IsOpen="{Binding ElementName=ambientBtn, Path=IsChecked}"
+                       StaysOpen="False"
+                       PlacementTarget="{Binding ElementName=ambientBtn}"
+                       Placement="Bottom"
+                       Width="{Binding ElementName=ambientBtn, Path=ActualWidth}"
+                       Height="100">
+                    <mwht:SimpleColorPicker />
+                </Popup>
+                <Border Background="{Binding MaterialAttribute.Diffuse, Mode=OneWay}"
+                        Margin="10,0,10,3" />
+                <Border Background="{Binding MaterialAttribute.Specular, Mode=OneWay}"
+                        Margin="10,0,10,3" />
+            </StackPanel>
+        </Grid>-->
+    </Grid>
+</UserControl>
