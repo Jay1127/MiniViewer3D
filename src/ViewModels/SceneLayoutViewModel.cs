@@ -125,6 +125,11 @@ namespace MiniViewer3D.ViewModels
         {
             string filePath = OpenSaveDialog();
 
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return;
+            }
+
             var dialogData = new BusyIndicatorModel("Export File", "Writing...");
             _dialogService.ShowDialogAsync<MiniBusyIndicatorPopup>(dialogData);
 
@@ -248,6 +253,7 @@ namespace MiniViewer3D.ViewModels
         {
             using (var dialog = new OpenFileDialog())
             {
+                dialog.Filter = "3d files(*.stl; *obj)|*.stl; *obj";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     return dialog.FileName;
@@ -261,7 +267,8 @@ namespace MiniViewer3D.ViewModels
         {
             using (var dialog = new SaveFileDialog())
             {
-                if(dialog.ShowDialog() == DialogResult.OK)
+                dialog.Filter = "stl files (*.stl)|*.stl|obj files (*.obj)|*.obj";
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     return dialog.FileName;
                 }
