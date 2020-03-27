@@ -10,105 +10,173 @@
              d:DesignWidth="800"
              Background="{StaticResource BaseColor}">
     <UserControl.Resources>
-        <ResourceDictionary>
-            <DataTemplate x:Key="SettingHeaderTemplate">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Name}"
-                               Margin="0"
-                               VerticalAlignment="Center"
-                               FontSize="14"
-                               FontWeight="Bold"/>
-                    <Button Content="-"
-                            Margin="5,0,0,0"
-                            VerticalAlignment="Center"
-                            Background="Transparent"
-                            BorderThickness="0" />
-                </StackPanel>
-            </DataTemplate>
+        <local:MultiCommandParameterConverter x:Key="MultiCommandParameterConverter" />
 
-            <DataTemplate DataType="{x:Type model:PointLightAttribute}">
-                <DataTemplate.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="../Styles/TabPropertyStyle.xaml" />
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </DataTemplate.Resources>
-                <Expander Header="{Binding .}"
-                          HeaderTemplate="{StaticResource SettingHeaderTemplate}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{StaticResource SubNameColLength}" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <TextBlock Text="Type" />
-                            <TextBlock Text="Position" />
-                            <TextBlock Text="Constant Attenuation" />
-                            <TextBlock Text="Linear Attenuation" />
-                            <TextBlock Text="Quadratic Attenuation" />
-                            <TextBlock Text="Ambient" />
-                            <TextBlock Text="Diffuse" />
-                            <TextBlock Text="Specular" />
-                            <TextBlock Text="IsActive" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1">
-                            <ComboBox />
-                            <local:PointAttributeControl DataContext="{Binding Position}" />
-                            <TextBox Text="{Binding ConstantAttenuation}" />
-                            <TextBox Text="{Binding LinearAttenuation}" />
-                            <TextBox Text="{Binding QuadraticAttenuation}" />
-                            <Rectangle Fill="{Binding Ambient}" />
-                            <Rectangle Fill="{Binding Diffuse}" />
-                            <Rectangle Fill="{Binding Specular}" />
-                            <CheckBox IsChecked="{Binding IsCast}" />
-                        </StackPanel>
-                    </Grid>
-                </Expander>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type model:DirLightAttribute}">
-                <DataTemplate.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="../Styles/TabPropertyStyle.xaml" />
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </DataTemplate.Resources>
-                <Expander Header="{Binding .}"
-                          HeaderTemplate="{StaticResource SettingHeaderTemplate}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{StaticResource SubNameColLength}" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <TextBlock Text="Type" />
-                            <TextBlock Text="Direction" />
-                            <TextBlock Text="Ambient" />
-                            <TextBlock Text="Diffuse" />
-                            <TextBlock Text="Specular" />
-                            <TextBlock Text="IsActive" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1">
-                            <ComboBox />
-                            <local:PointAttributeControl DataContext="{Binding Direction}" />
-                            <Rectangle Fill="{Binding Ambient}" />
-                            <Rectangle Fill="{Binding Diffuse}" />
-                            <Rectangle Fill="{Binding Specular}" />
-                            <CheckBox IsChecked="{Binding IsCast}" />
-                        </StackPanel>
-                    </Grid>
-                </Expander>
-            </DataTemplate>
-        </ResourceDictionary>
+        <DataTemplate x:Key="SettingHeaderTemplate">
+            <Grid Width="345">
+                <TextBlock Text="{Binding Name}"
+                           Margin="0,0,0,4"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           FontWeight="Bold" />
+                <Button HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Width="18"
+                        Height="18"
+                        Background="Transparent"
+                        BorderThickness="0">
+                    <Image Source="/Icons/icons8-settings-24.png" />
+                </Button>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type model:PointLightAttribute}">
+            <DataTemplate.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="../Styles/TabPropertyStyle.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </DataTemplate.Resources>
+            <Expander Header="{Binding .}"
+                      HeaderTemplate="{StaticResource SettingHeaderTemplate}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Position" />
+                        <TextBlock Text="Constant Attenuation" />
+                        <TextBlock Text="Linear Attenuation" />
+                        <TextBlock Text="Quadratic Attenuation" />
+                        <TextBlock Text="Ambient" />
+                        <TextBlock Text="Diffuse" />
+                        <TextBlock Text="Specular" />
+                        <TextBlock Text="IsActive" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <local:PointAttributeControl DataContext="{Binding Position}" />
+                        <TextBox Text="{Binding ConstantAttenuation}" />
+                        <TextBox Text="{Binding LinearAttenuation}" />
+                        <TextBox Text="{Binding QuadraticAttenuation}" />
+
+                        <local:ColorAttributeControl Color="{Binding Ambient}"
+                                                     ClickSettingCommand="{Binding DataContext.ShowColorPickerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                     Margin="0,0,0,3">
+                            <local:ColorAttributeControl.ClickSettingCommandParameter>
+                                <MultiBinding Converter="{StaticResource MultiCommandParameterConverter}">
+                                    <Binding Source="Ambient" />
+                                    <Binding Path="Header"
+                                             RelativeSource="{RelativeSource AncestorType={x:Type Expander}}" />
+                                </MultiBinding>
+                            </local:ColorAttributeControl.ClickSettingCommandParameter>
+                        </local:ColorAttributeControl>
+                        <local:ColorAttributeControl Color="{Binding Diffuse}"
+                                                     ClickSettingCommand="{Binding DataContext.ShowColorPickerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                     Margin="0,0,0,3">
+                            <local:ColorAttributeControl.ClickSettingCommandParameter>
+                                <MultiBinding Converter="{StaticResource MultiCommandParameterConverter}">
+                                    <Binding Source="Diffuse" />
+                                    <Binding Path="Header"
+                                             RelativeSource="{RelativeSource AncestorType={x:Type Expander}}" />
+                                </MultiBinding>
+                            </local:ColorAttributeControl.ClickSettingCommandParameter>
+                        </local:ColorAttributeControl>
+                        <local:ColorAttributeControl Color="{Binding Specular}"
+                                                     ClickSettingCommand="{Binding DataContext.ShowColorPickerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                     Margin="0,0,0,3">
+                            <local:ColorAttributeControl.ClickSettingCommandParameter>
+                                <MultiBinding Converter="{StaticResource MultiCommandParameterConverter}">
+                                    <Binding Source="Specular" />
+                                    <Binding Path="Header"
+                                             RelativeSource="{RelativeSource AncestorType={x:Type Expander}}" />
+                                </MultiBinding>
+                            </local:ColorAttributeControl.ClickSettingCommandParameter>
+                        </local:ColorAttributeControl>
+                        <CheckBox IsChecked="{Binding IsCast}" />
+                    </StackPanel>
+                </Grid>
+            </Expander>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type model:DirLightAttribute}">
+            <DataTemplate.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="../Styles/TabPropertyStyle.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </DataTemplate.Resources>
+            <Expander Header="{Binding .}"
+                      HeaderTemplate="{StaticResource SettingHeaderTemplate}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource SubNameColLength}" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Direction" />
+                        <TextBlock Text="Ambient" />
+                        <TextBlock Text="Diffuse" />
+                        <TextBlock Text="Specular" />
+                        <TextBlock Text="IsActive" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <local:PointAttributeControl DataContext="{Binding Direction}" />
+                        <local:ColorAttributeControl Color="{Binding Ambient}"
+                                                     ClickSettingCommand="{Binding DataContext.ShowColorPickerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                     Margin="0,0,0,3">
+                            <local:ColorAttributeControl.ClickSettingCommandParameter>
+                                <MultiBinding Converter="{StaticResource MultiCommandParameterConverter}">
+                                    <Binding Source="Ambient" />
+                                    <Binding Path="Header"
+                                             RelativeSource="{RelativeSource AncestorType={x:Type Expander}}" />
+                                </MultiBinding>
+                            </local:ColorAttributeControl.ClickSettingCommandParameter>
+                        </local:ColorAttributeControl>
+                        <local:ColorAttributeControl Color="{Binding Diffuse}"
+                                                     ClickSettingCommand="{Binding DataContext.ShowColorPickerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                     Margin="0,0,0,3">
+                            <local:ColorAttributeControl.ClickSettingCommandParameter>
+                                <MultiBinding Converter="{StaticResource MultiCommandParameterConverter}">
+                                    <Binding Source="Diffuse" />
+                                    <Binding Path="Header"
+                                             RelativeSource="{RelativeSource AncestorType={x:Type Expander}}" />
+                                </MultiBinding>
+                            </local:ColorAttributeControl.ClickSettingCommandParameter>
+                        </local:ColorAttributeControl>
+                        <local:ColorAttributeControl Color="{Binding Specular}"
+                                                     ClickSettingCommand="{Binding DataContext.ShowColorPickerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                     Margin="0,0,0,3">
+                            <local:ColorAttributeControl.ClickSettingCommandParameter>
+                                <MultiBinding Converter="{StaticResource MultiCommandParameterConverter}">
+                                    <Binding Source="Specular" />
+                                    <Binding Path="Header"
+                                             RelativeSource="{RelativeSource AncestorType={x:Type Expander}}" />
+                                </MultiBinding>
+                            </local:ColorAttributeControl.ClickSettingCommandParameter>
+                        </local:ColorAttributeControl>
+                        <CheckBox IsChecked="{Binding IsCast}" />
+                    </StackPanel>
+                </Grid>
+            </Expander>
+        </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel CanVerticallyScroll="True">
-        <ContentControl Content="{Binding LightUnit1}" />
-        <ContentControl Content="{Binding LightUnit2}" />
-        <ContentControl Content="{Binding LightUnit3}" />
-        <ContentControl Content="{Binding LightUnit4}" />
-        <ContentControl Content="{Binding LightUnit5}" />
-        <ContentControl Content="{Binding LightUnit6}" />
-    </StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Visible">
+        <StackPanel>
+            <ContentControl Content="{Binding LightUnit1}"
+                            Name="Light1a" />
+            <ContentControl Content="{Binding LightUnit2}"
+                            Name="Light2" />
+            <ContentControl Content="{Binding LightUnit3}"
+                            Name="Light3" />
+            <ContentControl Content="{Binding LightUnit4}"
+                            Name="Light4" />
+            <ContentControl Content="{Binding LightUnit5}"
+                            Name="Light5" />
+            <ContentControl Content="{Binding LightUnit6}"
+                            Name="Light6" />
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

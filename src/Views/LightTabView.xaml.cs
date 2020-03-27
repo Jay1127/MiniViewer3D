@@ -24,5 +24,10 @@ namespace MiniViewer3D
         {
             InitializeComponent();
         }
+
+        private void OnRequestLightAttributeChanged(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

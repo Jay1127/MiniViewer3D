@@ -125,9 +125,14 @@
                                 <wht:MenuItemMutableCheckBehavior />
                             </i:Interaction.Behaviors>
                             <MenuItem Header="Orthogonal"
-                                      IsCheckable="True" />
+                                      IsCheckable="True"
+                                      Command="{Binding SetProjectionModeCommand}"
+                                      CommandParameter="{x:Static me:ProjectionMode.Orthogonal}" />
                             <MenuItem Header="Perspective"
-                                      IsChecked="True" />
+                                      IsCheckable="True"
+                                      IsChecked="True"
+                                      Command="{Binding SetProjectionModeCommand}"
+                                      CommandParameter="{x:Static me:ProjectionMode.Perspective}" />
                         </MenuItem>
                         <Separator />
                         <MenuItem Header="Reset View"

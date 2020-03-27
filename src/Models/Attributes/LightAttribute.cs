@@ -22,22 +22,54 @@ namespace MiniViewer3D.Models
         /// <summary>
         /// Ambient
         /// </summary>
-        public SolidColorBrush Ambient { get; set; }
-        
+        public SolidColorBrush Ambient
+        {
+            get => MiniEyesHelper.ToBrush(_light.Ambient);
+            set
+            {
+                _light.Ambient = MiniEyesHelper.ToColorF(value);
+                NotifyPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Diffuse
         /// </summary>
-        public SolidColorBrush Diffuse { get; set; }
+        public SolidColorBrush Diffuse
+        {
+            get => MiniEyesHelper.ToBrush(_light.Diffuse);
+            set
+            {
+                _light.Diffuse = MiniEyesHelper.ToColorF(value);
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Specular
         /// </summary>
-        public SolidColorBrush Specular { get; set; }
+        public SolidColorBrush Specular
+        {
+            get => MiniEyesHelper.ToBrush(_light.Specular);
+            set
+            {
+                _light.Specular = MiniEyesHelper.ToColorF(value);
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// 조명 활성 여부
         /// </summary>
-        public bool IsCast { get; set; }
+        public bool IsCast
+        {
+            get => _light.IsCast;
+            set
+            {
+                _light.IsCast = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// 조명을 생성함.
@@ -46,9 +78,6 @@ namespace MiniViewer3D.Models
         public LightAttribute(Light light)
         {
             _light = light;
-            Ambient = MiniEyesHelper.ToBrush(_light.Ambient);
-            Diffuse = MiniEyesHelper.ToBrush(_light.Diffuse);
-            Specular = MiniEyesHelper.ToBrush(_light.Specular);
         }
     }
 }

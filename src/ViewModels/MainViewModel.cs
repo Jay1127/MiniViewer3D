@@ -29,6 +29,7 @@ namespace MiniViewer3D.ViewModels
             CommandViewModel.ImportCommand = new DelegateCommand(SceneLayoutViewModel.ImportFile);
             CommandViewModel.ExitCommand = new DelegateCommand(Shutdown);
 
+            CommandViewModel.SetProjectionModeCommand = new DelegateCommand<ProjectionMode>(SceneLayoutViewModel.SetProjectionMode);
             CommandViewModel.FitCommand = new DelegateCommand(SceneLayoutViewModel.Fit, SceneLayoutViewModel.HasActiveScene);
             CommandViewModel.ResetViewCommand = new DelegateCommand(SceneLayoutViewModel.Reset, SceneLayoutViewModel.HasActiveScene);
             CommandViewModel.SetViewCommand = new DelegateCommand<ViewMode>(SceneLayoutViewModel.SetView, (o) => SceneLayoutViewModel.HasActiveScene());

@@ -126,6 +126,13 @@ namespace MiniViewer3D.ViewModels
             ActiveSceneModel.Scene.ReDraw();;
         }
 
+        public void SetProjectionMode(ProjectionMode projectionMode)
+        {
+            ActiveSceneModel.Scene.Camera.ProjectionMode = projectionMode;
+            ActiveSceneModel.Scene.Fit();
+            ActiveSceneModel.Scene.ReDraw();
+        }
+
         public void Fit()
         {
             ActiveSceneModel.Scene.Fit();
