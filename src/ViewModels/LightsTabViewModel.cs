@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using MiniEyes.Geometry;
@@ -87,6 +89,14 @@ namespace MiniViewer3D.ViewModels
 
         public override void Cleanup()
         {
+            foreach(var light in GetLights())
+            {
+                if (light != null)
+                {
+                    light.PropertyChanged -= OnLightAttributePropertyChanged;
+                }
+            }
+
             LightUnit1 = null;
             LightUnit2 = null;
             LightUnit3 = null;
@@ -147,22 +157,42 @@ namespace MiniViewer3D.ViewModels
             {
                 _lastEditAttribute.Specular = viewModel.Brush;
             }
-
-            RequestSceneUpdate?.Invoke();
         }
 
         private LightAttribute CreateLightUnit(Light light)
         {
-            if(light is PointLight pointLight)
+            LightAttribute lightAttribute = null;
+
+            if (light is PointLight pointLight)
             {
-                return new PointLightAttribute(pointLight);
+                lightAttribute = new PointLightAttribute(pointLight);
             }
             else if(light is DirectionalLight directionalLight)
             {
-                return new DirLightAttribute(directionalLight);
+                lightAttribute = new DirLightAttribute(directionalLight);
             }
 
-            return null;
+            lightAttribute.PropertyChanged += OnLightAttributePropertyChanged;
+
+            return lightAttribute;
+        }
+
+        private void OnLightAttributePropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RequestSceneUpdate?.Invoke();
+        }
+
+        private IEnumerable<LightAttribute> GetLights()
+        {
+            return new LightAttribute[]
+            {
+                LightUnit1,
+                LightUnit2,
+                LightUnit3,
+                LightUnit4,
+                LightUnit5,
+                LightUnit6
+            };
         }
     }
 }

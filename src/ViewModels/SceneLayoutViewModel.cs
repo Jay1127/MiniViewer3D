@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MiniEyes;
 using MiniEyes.Documents;
+using MiniEyes.Geometry;
 using MiniEyes.WpfHelperTools;
 using MiniMvvm;
 using MiniViewer3D.Models;
@@ -81,14 +83,14 @@ namespace MiniViewer3D.ViewModels
 
         public async void ImportFile()
         {
-            string filePath = OpenDialog();
+            string filePath = OpenFileDialog();
 
             if (string.IsNullOrEmpty(filePath))
             {
                 return;
             }
 
-            var dialogData = new BusyIndicatorModel("Loading...", "Loading...");
+            var dialogData = new BusyIndicatorModel("Load File", "Loading...");
             _dialogService.ShowDialogAsync<MiniBusyIndicatorPopup>(dialogData);
 
             // read -> new 순서로 실행(파일이 읽어진 경우만 new 실행)   
@@ -104,13 +106,31 @@ namespace MiniViewer3D.ViewModels
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     //ActiveSceneModel.New();
-                    New();
+                    if (!string.IsNullOrEmpty(ActiveSceneModel.FilePath))
+                    {
+                        New();
+                    }
 
                     ActiveSceneModel.AddDocumentToScene(document);
 
                     SetUpTabLayout();
                     //NodeTree.ChangeTreeRoot(_activeSceneModel);
                 });
+            });
+
+            dialogData.IsShown = false;
+        }
+
+        public async void ExportFile()
+        {
+            string filePath = OpenSaveDialog();
+
+            var dialogData = new BusyIndicatorModel("Export File", "Writing...");
+            _dialogService.ShowDialogAsync<MiniBusyIndicatorPopup>(dialogData);
+
+            await Task.Run(() =>
+            {
+                WriteFile(filePath);
             });
 
             dialogData.IsShown = false;
@@ -168,9 +188,15 @@ namespace MiniViewer3D.ViewModels
             }
         }
 
-        public bool HasActiveScene()
+        public bool IsActiveSceneLoaded()
         {
-            return ActiveSceneModel != null;
+            return ActiveSceneModel != null
+                && !string.IsNullOrEmpty(ActiveSceneModel.FilePath);
+        }
+
+        public bool CanCloseActiveScene()
+        {
+            return SceneModels.Count != 1;
         }
 
         private Doc ReadFile(string filePath)
@@ -191,19 +217,57 @@ namespace MiniViewer3D.ViewModels
             throw new ArgumentException($"{format} 확장자는 지원하지 않음.");
         }
 
-        private string OpenDialog()
+        private void WriteFile(string filePath)
         {
-            string filePath = string.Empty;
+            string format = Path.GetExtension(filePath);
 
+            if (format is ".stl")
+            {
+                var stream = new DocStlStream();
+                stream.Write(new DocStl(filePath, ActiveSceneModel.Scene.Spatials.ToList()));
+            }
+            else if (format is ".obj")
+            {
+                var stream = new DocObjStream();
+
+                var materials = new List<Material>(ActiveSceneModel.Scene.Materials);
+                if(materials.Count == 0)
+                {
+                    materials.Add(ActiveSceneModel.Scene.Materials.Default);
+                }
+
+                stream.Write(new DocObj(filePath, ActiveSceneModel.Scene.Spatials.ToList(), materials));
+            }
+            else
+            {
+                throw new ArgumentException($"{format} 확장자는 지원하지 않음.");
+            }
+        }
+
+        private string OpenFileDialog()
+        {
             using (var dialog = new OpenFileDialog())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    filePath = dialog.FileName;
+                    return dialog.FileName;
                 }
             }
 
-            return filePath;
+            return string.Empty;
+        }
+
+        private string OpenSaveDialog()
+        {
+            using (var dialog = new SaveFileDialog())
+            {
+                if(dialog.ShowDialog() == DialogResult.OK)
+                {
+                    return dialog.FileName;
+                }
+            }
+
+            return string.Empty;
         }
 
         private void SetUpTabLayout()

@@ -98,7 +98,8 @@
                         <Separator />
                         <MenuItem Header="Import File"
                                   Command="{Binding ImportCommand}" />
-                        <MenuItem Header="Export File" />
+                        <MenuItem Header="Export File"
+                                  Command="{Binding ExportCommand}" />
                         <Separator />
                         <MenuItem Header="Exit"
                                   Command="{Binding ExitCommand}" />

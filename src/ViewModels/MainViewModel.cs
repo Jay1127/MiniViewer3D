@@ -22,17 +22,17 @@ namespace MiniViewer3D.ViewModels
             CommandViewModel = new CommandViewModel();
             SceneLayoutViewModel = new SceneLayoutViewModel(dialogService);
 
-            CommandViewModel.NewCommand = new DelegateCommand(SceneLayoutViewModel.New, SceneLayoutViewModel.HasActiveScene);
+            CommandViewModel.NewCommand = new DelegateCommand(SceneLayoutViewModel.New);
             CommandViewModel.NewTabCommand = new DelegateCommand(SceneLayoutViewModel.AddScene);
-            CommandViewModel.CloseTabCommand = new DelegateCommand(SceneLayoutViewModel.CloseActiveScene, SceneLayoutViewModel.HasActiveScene);
-            //CommandViewModel.AddCommand = new DelegateCommand(SceneLayoutViewModel.AddModel, SceneLayoutViewModel.HasActiveScene);
+            CommandViewModel.CloseTabCommand = new DelegateCommand(SceneLayoutViewModel.CloseActiveScene, SceneLayoutViewModel.CanCloseActiveScene);            
             CommandViewModel.ImportCommand = new DelegateCommand(SceneLayoutViewModel.ImportFile);
+            CommandViewModel.ExportCommand = new DelegateCommand(SceneLayoutViewModel.ExportFile, SceneLayoutViewModel.IsActiveSceneLoaded);
             CommandViewModel.ExitCommand = new DelegateCommand(Shutdown);
 
             CommandViewModel.SetProjectionModeCommand = new DelegateCommand<ProjectionMode>(SceneLayoutViewModel.SetProjectionMode);
-            CommandViewModel.FitCommand = new DelegateCommand(SceneLayoutViewModel.Fit, SceneLayoutViewModel.HasActiveScene);
-            CommandViewModel.ResetViewCommand = new DelegateCommand(SceneLayoutViewModel.Reset, SceneLayoutViewModel.HasActiveScene);
-            CommandViewModel.SetViewCommand = new DelegateCommand<ViewMode>(SceneLayoutViewModel.SetView, (o) => SceneLayoutViewModel.HasActiveScene());
+            CommandViewModel.FitCommand = new DelegateCommand(SceneLayoutViewModel.Fit);
+            CommandViewModel.ResetViewCommand = new DelegateCommand(SceneLayoutViewModel.Reset);
+            CommandViewModel.SetViewCommand = new DelegateCommand<ViewMode>(SceneLayoutViewModel.SetView);
 
             CommandViewModel.ScreenShotCommand = new DelegateCommand(SceneLayoutViewModel.ScreenShot);
             CommandViewModel.CopyClipboardCommand = new DelegateCommand(SceneLayoutViewModel.CopyClipBoard);
