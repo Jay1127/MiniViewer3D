@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Autofac;
 using MiniEyes.WpfHelperTools;
 using MiniViewer3D.Models;
 using MiniViewer3D.ViewModels;
+using Squirrel;
 
 namespace MiniViewer3D
 {
@@ -11,10 +13,11 @@ namespace MiniViewer3D
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected async override void OnStartup(StartupEventArgs e)
         {
+
             var builder = new ContainerBuilder();
-;
+
             builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
 
             builder.RegisterType<MainWindow>().AsSelf();
@@ -27,6 +30,20 @@ namespace MiniViewer3D
                 var main = scope.Resolve<MainWindow>();
                 main.DataContext = scope.Resolve<MainViewModel>();
                 main.Show();
+            }
+
+            try
+            {
+                string url = @"https://github.com/Jay1127/MiniViewer3D";
+
+                using (var mgr = await UpdateManager.GitHubUpdateManager(url))
+                {
+                    await mgr.UpdateApp();
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }
