@@ -12,7 +12,7 @@ namespace MiniViewer3D.ViewModels
     public class MaterialTabViewModel : TabViewModel
     {
         private MaterialAttribute _activeMaterial;
-        private bool _isAttributeHide;
+        private bool _isRootSelected;
 
         public override string Name => "Materials";
 
@@ -26,10 +26,10 @@ namespace MiniViewer3D.ViewModels
             set => SetProperty(ref _activeMaterial, value);
         }
 
-        public bool IsAttributeHide
+        public bool IsRootSelected
         {
-            get => _isAttributeHide;
-            set => SetProperty(ref _isAttributeHide, value);
+            get => _isRootSelected;
+            set => SetProperty(ref _isRootSelected, value);
         }
 
         public ICommand FixTextureCommand { get; }
@@ -37,7 +37,8 @@ namespace MiniViewer3D.ViewModels
         public MaterialTabViewModel()
         {
             Materials = new ObservableCollection<MaterialAttribute>();
-            IsAttributeHide = true;
+            IsRootSelected = true;
+
             FixTextureCommand = new DelegateCommand(FixTexture);
         }
 

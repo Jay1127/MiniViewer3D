@@ -17,6 +17,7 @@ namespace MiniViewer3D.ViewModels
         private MeshAttribute _activeNode;
         private string _lastEditComponent;
         private Dictionary<string, MaterialAttribute> _materials;
+        private bool _isRootSelected;
 
         public override event RequestSceneUpdateHandler RequestSceneUpdate;
 
@@ -47,6 +48,12 @@ namespace MiniViewer3D.ViewModels
             }
         }
 
+        public bool IsRootSelected
+        {
+            get => _isRootSelected;
+            set => SetProperty(ref _isRootSelected, value);
+        }
+
         public ICommand ShowColorPickerCommand { get; }
 
         public NodeTreeTabViewModel(IDialogService dialogService)
@@ -54,6 +61,8 @@ namespace MiniViewer3D.ViewModels
             _dialogService = dialogService;
 
             MeshNodes = new ObservableCollection<MeshAttribute>();
+            IsRootSelected = true;
+
             ShowColorPickerCommand = new DelegateCommand<string>(ShowColorPicker);
         }
 
