@@ -15,7 +15,7 @@
         <Style TargetType="{x:Type Window}">
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome CaptionHeight="30"
+                    <WindowChrome CaptionHeight="25"
                                   CornerRadius="0"
                                   GlassFrameThickness="1,1,32,1"
                                   ResizeBorderThickness="0"
