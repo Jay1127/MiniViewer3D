@@ -239,6 +239,36 @@
       <Name>MiniEyes</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\icons8-screenshot-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\orthogonal.png" />
+    <Resource Include="Icons\perspective.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\icons8-mesh-50.png" />
+    <Resource Include="Icons\icons8-sphere-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\icons8-home-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\icons8-fit-to-page-60.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\icons8-top-view-30.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\topview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\behindview.png" />
+    <Resource Include="Icons\bottomview.png" />
+    <Resource Include="Icons\frontview.png" />
+    <Resource Include="Icons\leftview.png" />
+    <Resource Include="Icons\rightview.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />
   <Import Project="..\..\packages\AssimpNet.4.1.0\build\AssimpNet.targets" Condition="Exists('..\..\packages\AssimpNet.4.1.0\build\AssimpNet.targets')" />

@@ -188,6 +188,7 @@
                 </Menu>
 
                 <StackPanel Grid.Row="1"
+                            DataContext="{Binding CommandViewModel}"
                             Background="{StaticResource BaseColor}"
                             Orientation="Horizontal"
                             Margin="3,0,0,0">
@@ -205,60 +206,98 @@
                                     Value="2,0,0,0" />
                         </Style>
                     </StackPanel.Resources>
-                    <Button>
+                    <Button Command="{Binding NewCommand}">
                         <Image Source="/Icons/icons8-file-50.png" />
                     </Button>
-                    <Button>
+                    <Button Command="{Binding ImportCommand}">
                         <Image Source="/Icons/icons8-opened-folder-50.png" />
                     </Button>
-                    <Button>
+                    <Button Command="{Binding ExportCommand}">
                         <Image Source="/Icons/icons8-save-50.png" />
                     </Button>
+                    <Button Padding="-1"
+                            Command="{Binding ScreenShotCommand}">
+                        <Image Source="/Icons/icons8-screenshot-30.png" />
+                    </Button>
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                    <RadioButton Style="{StaticResource FlatRadioButtonStyle}"
+                                 IsChecked="{Binding DataContext.ActiveSceneModel.RenderMode, 
+                                                          ElementName=_sceneContainer, 
+                                                          Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static me:RenderMode.Wireframe}}">
+                        <Image Source="/Icons/icons8-mesh-50.png" />
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource FlatRadioButtonStyle}"
+                                 IsChecked="{Binding DataContext.ActiveSceneModel.RenderMode, 
+                                                          ElementName=_sceneContainer, 
+                                                          Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static me:RenderMode.Filled}}">
+                        <Image Source="/Icons/icons8-sphere-50.png" />
+                    </RadioButton>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                    <RadioButton Padding="2"
+                                 Style="{StaticResource FlatRadioButtonStyle}"
+                                 Command="{Binding SetProjectionModeCommand}"
+                                 CommandParameter="{x:Static me:ProjectionMode.Orthogonal}">
+                        <Image Source="/Icons/orthogonal.png" />
+                    </RadioButton>
+                    <RadioButton Padding="1,2,1,1"
+                                 Style="{StaticResource FlatRadioButtonStyle}"
+                                 Command="{Binding SetProjectionModeCommand}"
+                                 CommandParameter="{x:Static me:ProjectionMode.Perspective}">
+                        <!--<Image Source="/Icons/perspective.png" />-->
+                        <Path Stroke="#0b70a5"
+                              Fill="#0b70a5"
+                              Stretch="Fill">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="135"
+                                                 CenterX="12"
+                                                 CenterY="12" />
+                            </Path.RenderTransform>
+                            <Path.Data>
+                                <PathGeometry Figures="m256 0c-5.53 0-10.611 3.042-13.222 7.917l-210 392c-4.152 7.752-.77 17.406 7.313 20.871l210 90c3.773 1.617 8.044 1.617 11.817 0l210-90c8.083-3.464 11.466-13.118 7.313-20.871l-210-392c-2.61-4.875-7.691-7.917-13.221-7.917zm-15 307.109-161.564 69.242 161.564-301.586zm0 32.639v134.504l-156.921-67.252zm30 0 156.921 67.252-156.921 67.252zm0-32.639v-232.344l161.564 301.586z" />
+                            </Path.Data>
+                        </Path>
+                    </RadioButton>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                    <Button Command="{Binding ResetViewCommand}">
+                        <Image Source="/Icons/icons8-home-48.png"/>
+                    </Button>
+                    <Button Command="{Binding FitCommand}">
+                        <Image Source="/Icons/icons8-fit-to-page-60.png" />
+                    </Button>
+                    <Button Padding="3"
+                            Command="{Binding SetViewCommand}"
+                            CommandParameter="{x:Static me:ViewMode.Top}">
+                        <Image Source="/Icons/topview.png" />
+                    </Button>
+                    <Button Padding="3"
+                            Command="{Binding SetViewCommand}"
+                            CommandParameter="{x:Static me:ViewMode.Bottom}">
+                        <Image Source="/Icons/bottomview.png" />
+                    </Button >
+                    <Button Padding="3"
+                            Command="{Binding SetViewCommand}"
+                            CommandParameter="{x:Static me:ViewMode.Left}">
+                        <Image Source="/Icons/leftview.png" />
+                    </Button>
+                    <Button Padding="3"
+                            Command="{Binding SetViewCommand}"
+                            CommandParameter="{x:Static me:ViewMode.Right}">
+                        <Image Source="/Icons/rightview.png" />
+                    </Button>
+                    <Button Padding="3"
+                            Command="{Binding SetViewCommand}"
+                            CommandParameter="{x:Static me:ViewMode.Front}">
+                        <Image Source="/Icons/frontview.png" />
+                    </Button>
+                    <Button Padding="3"
+                            Command="{Binding SetViewCommand}"
+                            CommandParameter="{x:Static me:ViewMode.Behind}">
+                        <Image Source="/Icons/behindview.png" />
+                    </Button>
                 </StackPanel>
-                <!--<ToolBarPanel Grid.Row="1"
-                              Background="{StaticResource BaseColor}"
-                              Orientation="Horizontal">
-                    <ToolBarPanel.Resources>
-                        <Style TargetType="{x:Type ToolBar}">
-                            <Setter Property="Height"
-                                    Value="33" />
-                            <Setter Property="Background"
-                                    Value="{StaticResource BaseColor}" />
-                        </Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Width"
-                                    Value="25" />
-                            <Setter Property="Height"
-                                    Value="25" />
-                            <Setter Property="Background"
-                                    Value="Transparent" />
-                            <Setter Property="BorderThickness"
-                                    Value="0" />
-                            <Setter Property="Margin"
-                                    Value="2,0,0,0" />
-                        </Style>
-                    </ToolBarPanel.Resources>
-                    -->
-                <!--0B70A5-->
-                <!--
-                    
-                    <ToolBar Margin="5,0,0,0">
-                        <Button>
-                            <Image Source="/Icons/icons8-file-50.png" />
-                        </Button>
-                        <Button>
-                            <Image Source="/Icons/icons8-opened-folder-50.png" />
-                        </Button>
-                        <Button>
-                            <Image Source="/Icons/icons8-add-folder-50.png" />
-                        </Button>
-                        <Button>
-                            <Image Source="/Icons/icons8-save-50.png" />
-                        </Button>
-                        <Separator />
-                    </ToolBar>
-                </ToolBarPanel>-->
 
                 <Grid Grid.Row="2"
                       Background="{StaticResource BaseColor}"
@@ -268,6 +307,7 @@
                         <ColumnDefinition Width="1" />
                         <ColumnDefinition Width="400" />
                     </Grid.ColumnDefinitions>
+                    
                     <TabControl DataContext="{Binding SceneLayoutViewModel}"
                                 ItemsSource="{Binding SceneModels}"
                                 SelectedItem="{Binding ActiveSceneModel}"
@@ -284,7 +324,7 @@
                             </DataTemplate>
                         </TabControl.ContentTemplate>
                     </TabControl>
-                    
+
                     <TabControl Grid.Column="2"                                
                                 DataContext="{Binding SceneLayoutViewModel.ActiveTabLayoutViewModel}"
                                 Background="{StaticResource BaseColor}"
@@ -313,11 +353,8 @@
                             <local:LightTabView />
                         </TabItem>
                     </TabControl>
-
                 </Grid>
             </Grid>
-
-
         </Grid>
     </Grid>
 </Window>

@@ -20,4 +20,19 @@
         <Setter Property="BorderThickness"
                 Value="0" />
     </Style>
+
+    <Style x:Key="FlatRadioButtonStyle"
+           TargetType="{x:Type RadioButton}"
+           BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="Width"
+                Value="25" />
+        <Setter Property="Height"
+                Value="25" />
+        <Setter Property="Margin"
+                Value="2,0,0,0" />
+    </Style>
 </ResourceDictionary>
