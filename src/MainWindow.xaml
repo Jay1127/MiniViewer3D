@@ -57,7 +57,7 @@
                 <Button Content="0"
                         Click="OnMinimizeBtnClicked" />
 
-                <Image Source="/Icons/icons8-spaceship-earth-epcot-48.png"
+                <Image Source="/Icons/icons8-3d-50.png"
                        Width="20"
                        Height="20"
                        Margin="5,0,0,0"

@@ -15,7 +15,10 @@ namespace MiniViewer3D
 
         private void OnLogoDoubleClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            App.Current.Shutdown();
+            if (e.ClickCount == 2)
+            {
+                App.Current.Shutdown();
+            }
         }
 
         private void OnMaximizeBtnClicked(object sender, RoutedEventArgs e)
