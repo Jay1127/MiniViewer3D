@@ -36,7 +36,7 @@ namespace MiniViewer3D
             {
                 string url = @"https://github.com/Jay1127/MiniViewer3D";
 
-                using (var mgr = await UpdateManager.GitHubUpdateManager(url))
+                using (var mgr = await UpdateManager.GitHubUpdateManager(url, prerelease:true))
                 {
                     await mgr.UpdateApp();
                 }
