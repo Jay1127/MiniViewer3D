@@ -1,7 +1,10 @@
-﻿using MiniEyes;
+﻿using System;
+using System.Threading.Tasks;
+using MiniEyes;
 using MiniEyes.WpfHelperTools;
 using MiniMvvm;
 using MiniViewer3D.Models;
+using Squirrel;
 
 namespace MiniViewer3D.ViewModels
 {
@@ -19,6 +22,8 @@ namespace MiniViewer3D.ViewModels
 
         public MainViewModel(IDialogService dialogService)
         {
+            UpdateFromServer();
+
             CommandViewModel = new CommandViewModel();
             SceneLayoutViewModel = new SceneLayoutViewModel(dialogService);
 
@@ -36,6 +41,26 @@ namespace MiniViewer3D.ViewModels
 
             CommandViewModel.ScreenShotCommand = new DelegateCommand(SceneLayoutViewModel.ScreenShot);
             CommandViewModel.CopyClipboardCommand = new DelegateCommand(SceneLayoutViewModel.CopyClipBoard);
+        }
+
+        private async void UpdateFromServer()
+        {
+            await Task.Run(async () =>
+            {
+                try
+                {
+                    string url = @"https://github.com/Jay1127/MiniViewer3D";
+
+                    using (var mgr = UpdateManager.GitHubUpdateManager(url, prerelease: true))
+                    {
+                        await mgr.Result.UpdateApp();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            });
         }
 
         private void Shutdown()

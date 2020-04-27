@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
 using MiniEyes.WpfHelperTools;
@@ -15,6 +16,7 @@ namespace MiniViewer3D
     {
         protected async override void OnStartup(StartupEventArgs e)
         {
+            // github update는 App.cs에서 하면 동작이 멈춤.
 
             var builder = new ContainerBuilder();
 
@@ -30,20 +32,6 @@ namespace MiniViewer3D
                 var main = scope.Resolve<MainWindow>();
                 main.DataContext = scope.Resolve<MainViewModel>();
                 main.Show();
-            }
-
-            try
-            {
-                string url = @"https://github.com/Jay1127/MiniViewer3D";
-
-                using (var mgr = await UpdateManager.GitHubUpdateManager(url, prerelease:true))
-                {
-                    await mgr.UpdateApp();
-                }
-            }
-            catch (Exception ex)
-            {
-
             }
         }
     }
