@@ -222,12 +222,14 @@
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 
                     <RadioButton Style="{StaticResource FlatRadioButtonStyle}"
+                                 GroupName="RenderMode"
                                  IsChecked="{Binding DataContext.ActiveSceneModel.RenderMode, 
                                                           ElementName=_sceneContainer, 
                                                           Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static me:RenderMode.Wireframe}}">
                         <Image Source="/Icons/icons8-mesh-50.png" />
                     </RadioButton>
                     <RadioButton Style="{StaticResource FlatRadioButtonStyle}"
+                                 GroupName="RenderMode"
                                  IsChecked="{Binding DataContext.ActiveSceneModel.RenderMode, 
                                                           ElementName=_sceneContainer, 
                                                           Converter={StaticResource EnumToBooleanConverter},ConverterParameter={x:Static me:RenderMode.Filled}}">
@@ -236,12 +238,14 @@
                     <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 
                     <RadioButton Padding="2"
+                                 GroupName="Projection"
                                  Style="{StaticResource FlatRadioButtonStyle}"
                                  Command="{Binding SetProjectionModeCommand}"
                                  CommandParameter="{x:Static me:ProjectionMode.Orthogonal}">
                         <Image Source="/Icons/orthogonal.png" />
                     </RadioButton>
                     <RadioButton Padding="1,2,1,1"
+                                 GroupName="Projection"
                                  Style="{StaticResource FlatRadioButtonStyle}"
                                  Command="{Binding SetProjectionModeCommand}"
                                  CommandParameter="{x:Static me:ProjectionMode.Perspective}">
