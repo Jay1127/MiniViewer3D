@@ -246,6 +246,7 @@
                     </RadioButton>
                     <RadioButton Padding="1,2,1,1"
                                  GroupName="Projection"
+                                 IsChecked="True"
                                  Style="{StaticResource FlatRadioButtonStyle}"
                                  Command="{Binding SetProjectionModeCommand}"
                                  CommandParameter="{x:Static me:ProjectionMode.Perspective}">
