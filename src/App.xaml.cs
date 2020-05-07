@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
+using log4net;
 using MiniEyes.WpfHelperTools;
 using MiniViewer3D.Models;
 using MiniViewer3D.ViewModels;
@@ -14,7 +16,7 @@ namespace MiniViewer3D
     /// </summary>
     public partial class App : Application
     {
-        protected async override void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             // github update는 App.cs에서 하면 동작이 멈춤.
 

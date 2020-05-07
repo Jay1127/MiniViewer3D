@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 using MiniEyes;
 using MiniEyes.WpfHelperTools;
 using MiniMvvm;
@@ -51,14 +54,19 @@ namespace MiniViewer3D.ViewModels
                 {
                     string url = @"https://github.com/Jay1127/MiniViewer3D";
 
-                    using (var mgr = UpdateManager.GitHubUpdateManager(url, prerelease: true))
+                    using (var mgr = UpdateManager.GitHubUpdateManager(url).Result)
                     {
-                        await mgr.Result.UpdateApp();
+                        var updateInfo = await mgr.CheckForUpdate();
+
+                        if (updateInfo.ReleasesToApply.Any())
+                        {
+                            await mgr.UpdateApp();
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-
+                    
                 }
             });
         }
