@@ -9,6 +9,7 @@
         xmlns:wht="clr-namespace:MiniEyes.WpfHelperTools;assembly=MiniEyes.WpfHelperTools"
         mc:Ignorable="d"
         Title="MainWindow"
+        Icon="icons8-3d-50.ico"
         Height="900"
         Width="1900"
         WindowState="Maximized">
